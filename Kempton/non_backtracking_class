@@ -1,0 +1,9 @@
+"""
+Non-Backtracking Graphs Class
+"""
+
+import numpy as np
+import networkx as nx
+import numpy.linalg as la
+
+
