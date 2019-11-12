@@ -1,11 +1,15 @@
-
-
 import numpy as np
 import scipy.linalg as la
 import scipy.sparse as sparse
 import networkx as nx
 from networkx.algorithms.connectivity import edge_connectivity, average_node_connectivity
 
+def create_k(G):
+    # Get necessary matrices
+    A = nx.adjacency_matrix(G).todense()
+    D = np.diag(list(dict(G.degree()).values()))
+    I = np.eye(D.shape[0])
+    return np.block([[A,D-I],[-I,np.zeros((D.shape[0],D.shape[0]))]])
 
 def create_s_t(G):
     direct = G.to_directed()
