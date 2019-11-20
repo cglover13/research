@@ -1,0 +1,90 @@
+\documentclass[a4paper]{article}
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{tikz}
+\usepackage{graphicx}
+\newtheorem{theorem}{Theorem}
+\newtheorem*{remark}{Remark}
+\newtheorem{corollary}{Corollary}[theorem]
+\newenvironment{exercise}[1]{\textbf{#1.}}
+
+
+\begin{document}
+
+\begin{flushright}
+Cory Glover\\
+11/12/19
+\end{flushright}
+
+\begin{center}
+Bipartite NBRW
+\end{center}
+
+\begin{theorem}
+A graph $G$ is bipartite if and only if the spectrum of $B$ is symmetric.
+\end{theorem}
+
+\begin{proof}
+Assume that $G$ is bipartite. If $G$ is bipartite, then the adjacency matrix $A$ can be written as $\begin{pmatrix}0&A_2\\A_1&0\end{pmatrix}$ (see \emph{Spectra of Graphs} by Brouwer and Haemers). We know that $A=ST$. Thus for a bipartite graph, we define the following matrices:
+\begin{align}
+T_1&\colon=\begin{cases}1&i_1\mapsto(i_1,i_2)\\0&\text{otherwise}\end{cases},\\
+T_2&\colon=\begin{cases}1&i_2\mapsto(i_2,i_1)\\0&\text{otherwise}\end{cases},\\
+S_1&\colon=\begin{cases}1&(i_2,i_1)\mapsto i_1\\0&\text{otherwise}\end{cases},\text{ and}\\
+S_2&\colon=\begin{cases}1&(i_1,i_2)\mapsto i_2\\0&\text{otherwise}\end{cases}.
+\end{align}
+In these matrices, $i_j$ represents a node in partition $j$ and $(i_j,i_k)$ represents an edge from partition $j$ to partition $k$.
+Thus by simple computation, we see that $A=\begin{pmatrix}0&T_1S_2\\T_2S_1\end{pmatrix}$ and the matrix $C=\begin{pmatrix}0&S_2T_2\\S_1T_1\end{pmatrix}$.
+Hence, the edges are also divided into two edge partitions.
+
+In order to compute $B$, we also define a matrix
+\begin{align}
+\tau_1&\colon=\begin{cases}1&(w,x)_1\mapsto(y,z)_2\\0&\text{otherwise}\end{cases}\text{ and }\\
+\tau_2&\colon=\begin{cases}1&(w,x)_2\mapsto(y,z)_1\\0&\text{otherwise}\end{cases},
+\end{align}
+where $(w,x)_j$ represents an edge in edge partition $j$. We then see that $\tau=\begin{pmatrix}0&\tau_2\\\tau_1&0\end{pmatrix}$.
+So the matrix $B=\begin{pmatrix}0&S_2T_2-\tau_2\\S_1T_1-\tau_1\end{pmatrix}$.
+Defining $B_j=S_jT_j-\tau_j$, we get that $B=\begin{pmatrix}0&B_2\\B_1&0\end{pmatrix}$.
+
+Let $\begin{pmatrix}x&y\end{pmatrix}^T$ be an eigenvector of $B$ with corresponding eigenvalue $\mu$. Then
+\begin{align}
+B\begin{pmatrix}x&y\end{pmatrix}^T&=\mu\begin{pmatrix}x&y\end{pmatrix}^T\\
+\begin{pmatrix}B_2y&B_1x\end{pmatrix}^T&=\mu\begin{pmatrix}x&y\end{pmatrix}^T.
+\end{align}
+Consider the vector $\begin{pmatrix}x&-y\end{pmatrix}^T$. We see that
+\begin{align}
+B\begin{pmatrix}x&-y\end{pmatrix}^T&=\begin{pmatrix}-B_2y&B_1x\end{pmatrix}^T\\
+&=\begin{pmatrix}-\mu x&\mu y\end{pmatrix}^T\\
+&=-\mu\begin{pmatrix}x&-y\end{pmatrix}^T.
+\end{align}
+So $-\mu$ is an eigenvalue of $B$ with eigenvector $\begin{pmatrix}x&-y\end{pmatrix}^T$. Hence the spectrum of $B$ is symmetric around 0.
+
+Now assume that the spectrum of $B$ is symmetric around 0.
+Consider $B$ as its own graph. The number of closed walks of length $k$ on $B$ can be represented by $tr(B^k)$.
+Recall that if $\mu\in\sigma(B)$, then $\mu^k\in\sigma(B^k)$ for any $k$.
+Since $tr(B^k)$ is the sum of its eigenvalues, the number of closed walks of length $k$ on $B$ is $\sum_{i=1}^n\mu_i^k$.
+If $k$ is odd, the $\sum_{i=1}^n\mu_i^k=0$.
+So every closed walk on $B$ must have even length, so $B$ must be bipartite (see https://www.epfl.ch/labs/dcg/wp-content/uploads/2018/10/ADM-Eigenvalues-v3.pdf).
+Thus $B$ can be written as $\begin{pmatrix}0&B_2\\B_1&0\end{pmatrix}$. Then by similar argument as above, $A=\begin{pmatrix}0&A_2\\A_1&0\end{pmatrix}$. So $G$ is bipartite.
+\end{proof}
+
+\begin{corollary}
+A graph $G$ is bipartite if and only if $-\rho$ is an eigenvalue of $B$.
+\end{corollary}
+
+\begin{remark}
+If $\mu$ is a complex eigenvalue, it is known that its conjugate $\overline{\mu}$ is also an eigenvalue. Here, we find that if $\mu$ is an eigenvalue, then its mirror image over the real axis is also a complex eigenvalue (i.e. if $\mu$ is an eigenvalue, $\overline{-\mu}$ is also an eigenvalue).
+\end{remark}
+
+\end{document}
