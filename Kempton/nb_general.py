@@ -65,6 +65,27 @@ def to_edge_space(G, B=False, graph=True, ret_tau = False):
         return  S@T, tau
     return S@T
 
+def rank(x):
+    """
+    Computes standardize ranking of vector which accounts for ties
+    
+    Parameters:
+        x (ndarray)
+    
+    Returns:
+        rank (ndarray)
+    """
+    # Create ranking array and sorted array
+    copy = np.copy(x)
+    sorted_x = np.sort(copy)
+    rank = np.zeros_like(copy)
+    # Check rank of each node
+    for i, val in enumerate(copy):
+        # Account for ties by using np.min
+        rank[i] = np.min(np.where(np.around(sorted_x,decimals=12)==round(val,12))[0])
+        
+    return rank
+
 
 
 
