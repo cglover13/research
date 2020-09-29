@@ -1,0 +1,4 @@
+Graph 0: K_2_4 graph
+Graph 1: Cycles connected on singular node.
+Graph 2: Clear cut on page rank vector.
+Graph 3: Interesting cycles.
