@@ -1,0 +1,408 @@
+\documentclass[letterpaper,mathserif,english,xcolor=dvipsnames]{beamer}
+
+%\usepackage{beamerthemesplit}
+
+\usetheme{Madrid}
+%\usecolortheme{beaver}
+
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage[all]{xy}
+\usepackage{tikz}
+%\usepackage{bbold}
+%\usepackage{animate}
+
+\usepackage{fp}
+
+\theoremstyle{definition}
+%\newtheorem{definition}[definition]{Definition}
+\theoremstyle{theorem}
+%\newtheorem{fact}[theorem]{Fact}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{ifact}[theorem]{Important Theorem}
+\newtheorem{strategy}[theorem]{Strategy}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{idea}[theorem]{Idea}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{dream}[theorem]{Dream}
+
+%\newtheorem{lemma}[theorem]{Lemma}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\G}{\mathbb{G}}
+%\newcommand{\L}{\mathbb{L}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\A}{\mathbb{A}}
+%\newcommand{\P}{\mathbb{P}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\Hidden}[1]{}
+\newcommand{\RS}{\mathcal R_S}
+
+\newcommand{\disp}{\displaystyle}
+
+\newcommand{\defbold}[1]{\textcolor{blue}{\textbf{#1}}}
+\newcommand{\bigzero}{\mbox{\normalfont\Large 0}}
+
+\DeclareMathOperator{\pr}{pr}
+\DeclareMathOperator{\vol}{vol}
+
+\beamertemplatenavigationsymbolsempty
+
+\title[Non-Backtraking Random Walks]{Non-backtracking Random Walks}
+
+
+
+\author[Cory Glover]{{\large Cory Glover} \\  \vspace{.2cm}
+Brigham Young University \\ Department of Mathematics \\ \vspace{.4cm} {\footnotesize Joint work with\\ Mark Kempton, Brigham Young University\\Tyler Jones, Brigham Young University}
+ } \institute[BYU]
+
+
+\date[February 29, 2020
+
+]{SCR 2020\\Provo, UT\\February 29,2020
+}
+
+
+% Define style for nodes
+%\tikzstyle{every node}=[circle, fill=black!50,
+%                        inner sep=0pt, minimum width=2pt]
+                   
+%\tikzstyle{every node}=[circle, draw, fill=black!50,
+ %                       inner sep=0pt, minimum width=2pt]
+\tikzstyle{every node}=[circle,fill=black,inner sep=1pt]
+
+
+\newcommand{\F}{\mathbb{F}}
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+
+%\section[Outline]{}
+%\frame{\tableofcontents}
+\colorlet{nodecolor}{red}
+
+%\tikzstyle{every node}=[fill=white,
+%                        inner sep=0pt, minimum width=4pt]
+
+
+%\section{Background}
+%\subsection{Original Question}
+%\subsection{New Question}
+
+\frame{\frametitle{Problem}
+
+\begin{center}
+Is the mixing rate of a non-backtracking random walk faster than that of a simple random walk on a graph?
+\end{center}
+
+}
+
+\frame{\frametitle{Mixing Rate}
+\begin{definition}
+Let $P$ be the transition probability matrix of a graph $G$ and let $\pi$ be the stationary distribution of a random walk on $G$. Then the \textbf{\textcolor{blue}{mixing rate}} of a random walk on a graph $G$ is defined pointwise by
+\[\rho=\limsup_{t\rightarrow\infty}\max_{u,v}|P^t(u,v)-\pi(v)|^{1/t}.\]
+\end{definition}
+}
+
+\frame{\frametitle{Mixing Rate and Eigenvalues}
+
+\begin{theorem}[Lovasz 1993]
+Let $G$ be a connected non-bipartite graph with transition probability matrix $P$. Let $\mu_1\geq\mu_2\geq\dotsb\geq\mu_n$ be the eigenvalues of $P$. Then the mixing rate of $G$ is $\rho=\max\{|\mu_2|,|\mu_n|\}$.
+\end{theorem}
+
+
+}
+
+
+\frame{\frametitle{Hashimoto Matrix}
+
+
+
+\begin{definition}
+The \textbf{\textcolor{blue}{Hashimoto Matrix}} of a graph $G$ is 
+\begin{align}
+B((u,v),(x,y))&=\begin{cases}1&v=x\text{ and }u\neq y\\0&\text{otherwise}\end{cases}
+\end{align}
+\end{definition}
+
+}
+
+\frame{\frametitle{Ihara's Theorem}
+
+\begin{theorem}[Ihara]
+Given a graph $G$ with $n$ vertices and $m$ edges, define $B$ to be the Hashimoto matrix of $G$. Let $A$ be the adjacency matrix of $G$ and let $D$ be the diagonal degree matrix. Then
+\[\text{det}(I-\mu B)=(1-u^2)^{m-n}\text{det}(I-\mu A+\mu^2(D-I)).\]
+\end{theorem}
+\smallskip
+Thus, the eigenvalues of $B$ are $\mu$.
+
+
+}
+
+
+\frame{\frametitle{The Matrix $K$}
+
+From Krzakala et. al. (2013), the matrix $K$ of a graph $G$
+\[K=\begin{pmatrix}A&D-I\\-I&\mathbf{0}\end{pmatrix}\]
+is a invariant subspace of $B$.
+
+}
+
+\frame{\frametitle{The Matrix $K$}
+
+Define the following matrices: \[S((u,v),x)=\begin{cases}1&v=x\\0&\text{otherwise}\end{cases}\] 
+ \[T(x,(u,v))=\begin{cases}1&u=x\\0&\text{otherwise}\end{cases}.\]
+ \bigskip
+Then
+\[B\begin{pmatrix}S&T^T\end{pmatrix}v=\begin{pmatrix}S&T^T\end{pmatrix}Kv.\]
+\smallskip
+If $v$ is an eigenvector of $K$ with eigenvalue $\mu$, then
+\[B\begin{pmatrix}S&T^T\end{pmatrix}v=\mu\begin{pmatrix}S&T^T\end{pmatrix}v.\]
+
+}
+
+
+
+
+\frame{\frametitle{Eigenvalues of $K$}
+If $\begin{pmatrix}x&y\end{pmatrix}^T$ is an eigenvector of $K$,
+\begin{align*}
+\begin{pmatrix}A&D-I\\-I&\mathbf{0}\end{pmatrix}\begin{pmatrix}x\\y\end{pmatrix}&=\mu\begin{pmatrix}x\\y\end{pmatrix},
+\end{align*}
+then $x=-\mu y$.
+\smallskip
+This means that $\mu^2y-\mu Ay+(D-I)y=\mathbf{0}$ for all $\mu\in\sigma(K)$.
+}
+
+\frame{\frametitle{Ihara's Theorem}
+
+
+
+\begin{theorem}[Ihara, 1966]
+Given a graph $G$ and the associated Hasimoto matrix $B$, adjacency matrix $A$, and diagonal degree matrix $D$, the following is true:
+\[\text{det}(I-\mu B)=(1-u^2)^{m-n}\text{det}(I-u A-u^2(D-I)).\]
+\end{theorem}
+\bigskip
+So the eigenvalues of $B$ are the $\frac{1}{u}$. 
+}
+
+\frame{\frametitle{Relationship Between $A$ and $K$}
+
+Let $\mathbf{x}$ be the eigenvector associated with $\lambda_2$ (the second largest eigenvalue) of $A$. Let $\mu_2$ be the second largest eigenvalue of $K$ such that $K\begin{pmatrix}-\mu_2\mathbf{y}&\mathbf{y}\end{pmatrix}^T=\mu_2\begin{pmatrix}-\mu_2\mathbf{y}&\mathbf{y}\end{pmatrix}^T$. Scale $\mathbf{x}$ such that $\mathbf{x}^T\mathbf{y}=1$. 
+
+\bigskip
+
+Then,
+\begin{align*}
+\mu_2^2\mathbf{x}^T\mathbf{y}-\mu_2\mathbf{x}^TA\mathbf{y}+\mathbf{x}^T(D-I)\mathbf{y}&=0,\\
+\mu_2^2-\mu_2\lambda_2+\mathbf{x}^T(D-I)\mathbf{y}&=0.
+\end{align*}
+
+\bigskip
+
+Solving for $\mu_2$,
+\[\mu_2=\frac{\lambda_2\pm\sqrt{\lambda_2^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}.\]
+}
+
+\frame{ \frametitle{Questions That Arise}
+
+\[\mu=\frac{\lambda\pm\sqrt{\lambda^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}\]
+
+\bigskip
+
+\begin{itemize}
+\item How are $\mu$ and $\lambda$ related?
+\item Is it $+$ or $-$?
+\item Can we get all eigenvalues $\mu$?
+\item How to convert $\mu$ to $\rho$?
+\end{itemize}
+
+  
+}
+
+\frame{ \frametitle{Relating $\mu$ and $\lambda$}
+
+Assume that $\lambda \geq 2\sqrt{\mathbf{x}^T(D-I)\mathbf{y}}$:
+\begin{align*}
+\mu&=\frac{\lambda+\sqrt{\lambda^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}\leq\frac{\lambda+\lambda}{2}=\lambda\\
+\mu&=\frac{\lambda-\sqrt{\lambda^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}\leq\frac{\lambda}{2}.
+\end{align*}
+In either case $\mu\leq\lambda$.
+
+
+}
+
+
+
+\frame{ \frametitle{Bipartite Graphs and $K$}
+
+INSERT PICTURE OF BIPARTITE GRAPH HERE
+
+}
+
+\frame{\frametitle{Bipartite Graphs and $K$}
+
+\begin{theorem}
+The following are equivalent for a graph $G$:
+\begin{enumerate}
+\item $G$ is bipartite,
+\item The spectrum of $B$ is symmetric,
+\item The spectrum of $K$ is symmetric,
+\item $-1$ is an eigenvalue of $K$.
+\end{enumerate}
+\end{theorem}
+
+}
+
+
+
+
+
+\frame{\frametitle{Bipartite $\Rightarrow$ $\sigma(B)$ Is Symmetric}
+If $G$ is bipartite, then 
+\[B=\begin{pmatrix}0&B_2\\B_1&0\end{pmatrix}.\]
+Let $\lambda\in\sigma(B)$. Then,
+\begin{align}
+B\begin{pmatrix}x&y\end{pmatrix}^T&=\lambda\begin{pmatrix}x&y\end{pmatrix}^T\\
+\begin{pmatrix}B_2y&B_1x\end{pmatrix}^T&=\lambda\begin{pmatrix}x&y\end{pmatrix}^T.
+\end{align}
+This means that
+\begin{align}
+B\begin{pmatrix}x&-y\end{pmatrix}^T&=\begin{pmatrix}-B_2y&B_1x\end{pmatrix}^T\\
+&=\begin{pmatrix}-\lambda x&\lambda y\end{pmatrix}^T\\
+&=-\lambda\begin{pmatrix}x&-y\end{pmatrix}^T.
+\end{align}
+So $-\lambda\in\sigma(B)$.
+}
+
+\frame{\frametitle{$\sigma(B)$ Is Symmetric $\Rightarrow$ $\sigma(K)$ Is Symmetric}
+\begin{theorem}[Ihara, 1966]
+Given a graph $G$ and the associated Hasimoto matrix $B$, adjacency matrix $A$, and diagonal degree matrix $D$, the following is true:
+\[\text{det}(I-\mu B)=(1-u^2)^{m-n}\text{det}(I-u A-u^2(D-I)).\]
+\end{theorem}
+
+}
+
+\frame{ \frametitle{$\sigma(K)$ is symmetric $\Rightarrow$ $\sigma(B)$ is symmetric.}
+
+\begin{theorem}[Ihara, 1966]
+Given a graph $G$ and the associated Hasimoto matrix $B$, adjacency matrix $A$, and diagonal degree matrix $D$, the following is true:
+\[\text{det}(I-\mu B)=(1-u^2)^{m-n}\text{det}(I-u A-u^2(D-I)).\]
+\end{theorem}
+
+}
+
+
+\frame{ \frametitle{$\sigma(B)$ is symmetric $\Rightarrow$ $G$ is bipartite}
+Consider $B$ as the adjacency matrix of its own graph.
+
+
+
+}
+
+\frame{\frametitle{Paths: Cospectrality and Fractional Cospectrality}
+When can two vertices of a path be cospectral or fractionally cospectral?
+
+\pause
+
+\begin{lemma}
+Let $u,v$ be vertices of a path on $n$ vertices $P_n$
+\begin{itemize}
+\item $u$ and $v$ are cospectral if and only if $\{u,v\}=\{i,n-i\}$.\pause
+ \item $u$ and $v$ are fractionally cospectral (and not cospectral) if and only if $n=5d-1$ for some positive integer $d$, and $\{u,v\}=\{d,3d\}$ or (by symmetry) $\{u,v\}=\{2d,4d\}$.
+\end{itemize}
+\end{lemma}
+
+\begin{center}
+\begin{tikzpicture}
+\draw (-4,0)node{}--(-3,0)node{}--(-2,0)node{}--(-1,0)node{}--(0,0)node{}--(1,0)node{}--(2,0)node{}--(3,0)node{}--(4,0)node{};
+\draw (-3,0)node[fill=none,below]{$u$} (1,0)node[fill=none,below]{$v$};
+\end{tikzpicture}
+\end{center}
+
+}
+
+\frame{\frametitle{Fractional Cospectrality in Paths}
+
+We prove this by counting walks in paths
+
+\begin{align*}
+A^{2d+2j}(u,u) &= \binom{2d+2j}{d+j}-\binom{2d+2j}{j}\\
+A^{2d+2j}(v,v) &= \binom{2d+2j}{d+j}\\
+A^{2d+2j}(u,v) &= \binom{2d+2j}{j}.
+\end{align*}
+
+
+}
+
+\frame{\frametitle{Paths: Eigenvalue Condition}
+
+The eigenvalues of $P_{5d-1}$ are
+\[
+\lambda_j=2\cos\frac{\pi j}{5d},~~~~j=1,...,5d-1
+\]
+
+\pause
+
+\begin{lemma}
+Let $m$ be an odd integer, $0\leq a< k$ integers.  Then
+\[
+\sum_{i=0}^{m-1}(-1)^i\cos\left(\frac{(a+ik)\pi}{km}\right)=0.
+\]
+\end{lemma}
+
+\pause
+
+Eigenvalue condition satisfied if and only if $d=2^k$ for some $k$.
+
+}
+
+\frame{\frametitle{PGFR in Paths}
+
+\begin{theorem}
+Vertices $u$ and $v$ of $P_n$ exhibit PGFR if and only if we are in one of the following cases:
+\begin{itemize}
+\item There is PGST from $u$ to $v$ (characterized previously).
+\item $n=5\cdot 2^k-1$ and $\{u,v\} = \{2^k,3\cdot2^k\}$ or $ \{2\cdot2^k,4\cdot2^k\}$.
+\end{itemize}
+\end{theorem}
+
+}
+
+\frame{\frametitle{Future Work}
+
+\begin{itemize}
+\item What other graphs have fractionally cospectral pairs of nodes?  Which of these exhibit FR/PGFR?\pause
+
+\item Weighted paths?\pause
+
+\item FR or PGFR among more than 2 nodes in paths?
+\end{itemize}
+
+}
+
+\frame{\frametitle{The End}
+
+\begin{center}
+
+{\Huge Thank You!}
+
+\end{center}
+}
+
+
+\end{document}

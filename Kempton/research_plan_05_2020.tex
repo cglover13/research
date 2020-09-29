@@ -1,0 +1,241 @@
+\documentclass[11pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[letterpaper, portrait, margin=1in,top=1in,bottom=1.5in]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem} 
+
+\title{Research Plan 05-2020}
+\author{Cory Glover}
+
+\begin{document}
+\maketitle
+
+This is a layout to plan progress on thesis during Summer of 2020.
+It will be divided by project.
+Proofs will be found in appendix as needed.
+
+\section{Mixing Rates of Non-backtracking Random Walks}
+
+\subsection{Background}
+
+Let $A$ be the adjacency matrix of a connected graph $G$.
+Let $P$ be the probability matrix associated with $G$.
+Let $S$ be the in-matrix of $G$ and $T$ be the out-matrix.
+Let $\hat{A}$ be the edge-adjacency matrix of $G$.
+Let $D$ be the degree matrix of $G$.
+Let $B$ be the non-backtracking edge adjacency matrix of $G$.
+Let $\tau$ be the reversal operator.
+
+The following properties and relationships hold:
+\begin{enumerate}
+    \item $A=TS$\\
+    \item $\hat{A}=ST$\\
+    \item $B=ST-\tau$\\
+    \item $D=T\tau S$
+\end{enumerate}
+
+Additionally we define the matrix $K=\begin{bmatrix}A&D-I\\-I&\mathbf{0}\end{bmatrix}.$
+Let $\mathbf{v}=\begin{bmatrix}x&y\end{bmatrix}^T$ be an eigenvector of $K$ with eigenvalue $\mu$.
+Note then that,
+\[\begin{bmatrix}A&D-I\\-I&\mathbf{0}\end{bmatrix}\begin{bmatrix}\mathbf{x}\\\mathbf{y}\end{bmatrix}=\mu\begin{bmatrix}\mathbf{x}\\\mathbf{y}\end{bmatrix}\]
+implies that $\mathbf{x}=-\mu \mathbf{y}$.
+So $\mathbf{v}=\begin{bmatrix}-\mu \mathbf{y}&\mathbf{y}\end{bmatrix}^T$.
+
+$K$ is an invariant subspace of $B$ as follows:
+
+\begin{equation}
+    B\begin{bmatrix}S&T^T\end{bmatrix}\mathbf{v}=\begin{bmatrix}S&T^T\end{bmatrix}K\mathbf{v}=\mu\begin{bmatrix}S&T^T\end{bmatrix}\mathbf{v}
+\end{equation}
+So all the eigenvalues of $K$ are also eigenvalues of $B$.
+
+We also note the following property:
+\begin{align}
+    -\mu A\mathbf{y} + (D-I)\mathbf{y}&= -\mu^2\mathbf{y}\\
+    \mu^2\mathbf{y} - \mu A\mathbf{y} + (D-I)\mathbf{y} &= 0\\
+    (\mu^2 - \mu A + (D-I))\mathbf{y} &= 0
+\label{eqn:quadratic}
+\end{align}
+
+\subsection{Regular Case}
+
+In the case that the graph is regular, it is known that $\mu=\frac{\lambda\pm\sqrt{\lambda^2-4(d-1)}}{2(d-1)}$ where $d$ is the degree of the graph.
+If $2\sqrt{d-1}\leq\lambda\leq d$, then
+\begin{align}
+    \mu&=\frac{\lambda+\sqrt{\lambda^2-4(d-1)}}{2(d-1)}\leq\frac{\lambda}{2}\\
+    \mu&=\frac{\lambda-\sqrt{\lambda^2-4(d-1)}}{2(d-1)}\leq\frac{\lambda}{2(d-1)}\leq\frac{\lambda}{2}.
+\end{align}
+If $\lambda<2\sqrt{d-1}$, then
+\begin{equation}
+    \mu=\frac{\lambda\pm\sqrt{\lambda^2-4(d-1)}}{2(d-1)}=\frac{\lambda\pm i\sqrt{4(d-1)-\lambda^2}}{2(d-1)}.
+\end{equation}
+Thus,
+\[|\mu|^2=\frac{1}{d-1}\Rightarrow|\mu|=\frac{1}{\sqrt{d-1}}.\]
+\subsection{Solving for $\mu$}
+
+We left multiply Equation \ref{eqn:quadratic} by some vector $\mathbf{u}^T$, where $\mathbf{u}^T\mathbf{y}\neq 0$.
+Thus,
+\begin{equation}
+    \mu = \frac{\mathbf{u^T}A\mathbf{y}\pm\sqrt{(\mathbf{u}^TA\mathbf{y})^2-4\mathbf{u}^T\mathbf{y}\mathbf{u}^T(D-I)\mathbf{y}}}{2\mathbf{u}^T\mathbf{y}}
+\end{equation}
+\subsubsection{$\mathbf{u}=\mathbf{x}$}
+If $\mathbf{u}=\mathbf{x}$ where $A\mathbf{x}=\lambda \mathbf{x}$.
+Then,
+\begin{align}
+    \mu &= \frac{\mathbf{x}^TA\mathbf{y}\pm\sqrt{(\mathbf{x}^TA\mathbf{y})^2-4\mathbf{x}^T\mathbf{y}\mathbf{x}^T(D-I)\mathbf{y}}}{2\mathbf{x}^T\mathbf{y}}\\
+    &=\frac{\lambda \mathbf{x}^T\mathbf{y}\pm\sqrt{\lambda^2(\mathbf{x}^T\mathbf{y})^2-4(\mathbf{x}^T\mathbf{y})(\mathbf{x}^T(D-I)\mathbf{y}}}{2\mathbf{x}^T\mathbf{y})}
+\end{align}
+Since $\mathbf{x}$ is an eigenvector and $\mathbf{y}$ is a part of an eigenvector, we scale them such that $\mathbf{x}^T\mathbf{y}=1$.
+So,
+\begin{equation}
+    \mu = \frac{\lambda\pm\sqrt{\lambda^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}
+\end{equation}
+
+However, if $\lambda_2$ is the second largest eigenvalue in magnitude of $A$, it is not clear whether $\mu_1$ or $\mu_2$ is the second largest eigenvalue in magnitude of $B$, where
+
+\[\begin{tabular}{cc}
+    $\mu_1 = \frac{\lambda_2 + \sqrt{\lambda_2^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}$,&$\mu_2 = \frac{\lambda_2 - \sqrt{\lambda_2^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}$.  
+\end{tabular}\]
+In the case that the second largest eigenvalue is $\mu_2$, then
+\[\mu_2=\frac{\lambda_2-\sqrt{\lambda_2^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}\leq\frac{\lambda_2}{2}\leq\lambda_2.\]
+
+\subsubsection{Various Algebraic Manipulations}
+
+New Manipulation:
+
+Assume $\lambda\geq 2\sqrt{\mathbf{x}^T(D-I)\mathbf{y}}$, then
+\begin{align}
+    \mu&=\frac{\lambda+\sqrt{\lambda^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}\leq\frac{\lambda+\lambda}{2}=\lambda\\
+    \mu&=\frac{\lambda-\sqrt{\lambda^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}\leq\frac{\lambda}{2}
+\end{align}
+Assume $\lambda < 2\sqrt{\mathbf{x}^T(D-I)\mathbf{y}}$.
+\begin{align}
+    \mu&=\frac{\lambda\pm\sqrt{\lambda^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}=\frac{\lambda\pm i\sqrt{4\mathbf{x}^T(D-I)\mathbf{y}-\lambda^2}}{2}\\
+    |\mu|^2&=\frac{\lambda^2}{4}+\frac{4\mathbf{x}^T(D-I)\mathbf{y}-\lambda^2}{4}=\mathbf{x}^T(D-I)\mathbf{y}\\
+    |\mu|&=\sqrt{\mathbf{x}^T(D-I)\mathbf{y}}
+\end{align}
+
+New Manipulation:
+
+\begin{align}
+    \mu_1^2&=\frac{\lambda^2}{4}+\frac{\lambda\sqrt{\lambda-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}+\frac{\lambda^2}{4}-\mathbf{x}^T(D-I)\mathbf{y}\\
+    &=\lambda\mu_1-\mathbf{x}^T(D-I)\mathbf{y}
+\end{align}
+
+New Manipulation:
+
+\begin{align}
+    |\mathbf{x}^T(D-I)\mathbf{y}|^2&=|\sum_{i=1}^n(d_i-1)x_iy_i|^2\\
+    &\leq\sum_{i=1}^n(d_i-1)^2\sum_{j=1}^n|x_j|^2\sum_{k=1}|y_k|^2\\
+    &=\sum_{i=1}^n(d_i^2+2d_i+1)\sum_{j=1}^n|x_j|\sum_{k=1}^n|y_k|\\
+    &\leq\sum_{i=1}^n(d_i^2+2d_i+d_i)\sum_{j=1}^n|x_j|\sum_{k=1}^n|y_k|\\
+    &\leq\sum_{i=1}^n(d_i)(d_i-1)\sum_{j=1}^n|x_j|\sum_{k=1}^n|y_k|\\
+    &=D(D-I)\mathbf{x}^T\mathbf{x}\mathbf{y}^T\mathbf{y}
+\end{align}
+
+\subsubsection{$\mathbf{u}=\mathbb{1}$}
+
+Let $\mathbf{u}=\mathbb{1}$. Then,
+\begin{align}
+    \mu&=\frac{\lambda\mathbb{1}^T\mathbf{y}\pm\sqrt{\lambda^2(\mathbb{1}^T\mathbf{y})^2-4\mathbb{1}^T\mathbf{y}\mathbb{1}^T(D-I)\mathbf{y}}}{2\mathbb{1}^T\mathbf{y}}\\
+    &=\frac{\lambda\sum_iy_i\pm\sqrt{\lambda^2(\sum_iy_i)^2-4\sum_iy_i\sum_j(d_j-1)y_j}}{2\sum_iy_i}
+\end{align}
+We scale $\mathbf{y}$ such that $\mathbb{1}^T\mathbf{y}=1$. Then,
+\begin{equation}
+    \mu=\frac{\lambda\pm\sqrt{\lambda^2-4\sum_i(d_i-1)y_i}}{2}.
+\end{equation}
+
+\subsubsection{Algebraic Manipulations}
+
+Assume $\lambda\geq2\sqrt{\sum_i(d_i-1)y_i}$.
+Then,
+\begin{align}
+    \mu &= \frac{\lambda+\sqrt{\lambda^2-4\sum_i(d_i-1)y_i}}{2}\\
+    &\leq \frac{\lambda+\lambda}{2}\\&=\lambda\\
+    \mu&=\frac{\lambda-\sqrt{\lambda^2-4\sum_i(d_i-1)y_i}}{2}\\
+    &\leq \frac{\lambda}{2}
+\end{align}
+If $\lambda < 2\sqrt{\sum_i(d_i-1)y_i}$, then
+\begin{align}
+    \mu&=\frac{\lambda\pm\sqrt{\lambda^2-4\sum_i(d_i-1)y_i}}{2}\\
+    &=\frac{\lambda\pm i\sqrt{4\sum_i(d_i-1)y_i-\lambda^2}}{2}\\
+    |\mu|^2&=\frac{\lambda^2}{4}+\sum_i(d_i-1)y_i-\frac{\lambda^2}{4}\\
+    &=\sum_i(d_i-1)y_i\\
+    |\mu|&=\sqrt{\sum_i(d_i-1)y_i}
+\end{align}
+
+\subsection{Diagonalizing $K$}
+
+In order to ensure we can get all eigenvalues $\mu\in\sigma(K)$, we need to know that $K$ itself is diagonalizable.
+Thus far, it seems that $K$ is diagonalizable if the markov chain along the non-backtracking random walk converges to some stationary distribution.
+
+Ideas tried thus far:
+\begin{enumerate}
+\item Using the fact that if $(K-\mu I)^2x=0$ implies $(K-\mu I)x=0$, then $K$ is diagonalizable.
+\item Using that the NBRW is reversible (this is not true).
+\item Looking for patterns in the diagonalization.
+\end{enumerate}
+
+\subsection{Finding an invariant subspace of $P$}
+
+In order to find an invariant subspace of $P$, we first need to write $\hat{D}$ in terms of $S$, $T$ and $\tau$. Thus far, we have noticed that $(C\tau)^2$ gives the correct diagonal entries but has entries corresponding to the degree of the row in the locations of $C\tau-I$.
+
+\subsection{Work to be done}
+
+The following needs to be done:
+
+\begin{enumerate}
+\item Proving $K$ is diagonalizable.
+\item Determining bound on relationship between $\mu$ and $\lambda$.\
+\item Convert $\mu$ to $\rho$.
+\item Find invariant subspace of $P$.
+\end{enumerate}
+
+\section{NBRW PageRank}
+
+Open questions still to look at are when PageRank gives the same values as a simple random walk and whether it can be calculated faster than a simple random walk.
+
+\subsection{Bipartite Graphs}
+
+We have shown that the a bipartite biregular graph gives the same pagerank values in both a NBRW and SRW.
+
+\subsection{Bahmini Alg}
+
+Bahmini algorithm seems to work faster for NBRW but as the number of nodes approaches infinity, the difference is insignificant.
+This happens fairly quickly.
+
+\subsection{Work To Be Done}
+
+The following needs to be worked on:
+\begin{enumerate}
+\item Observe patterns in Borgs et. al. algorithm.
+\item Prove that ranking is the same regardless of SRW and NBRW
+\end{enumerate}
+
+\section{Summer Plan}
+
+The following are action items for the summer:
+\begin{enumerate}
+\item Prove $K$ is diagonalizable (or die trying...)
+\item Identify useful bounds that relate $\mu$ and $\lambda$
+\item Find a relationship between $\mu$ and $\rho$
+\item Understand and apply Borg algorithm to NBRW
+\item Prove ranking of NBRW is the same as SRW
+\item Bipartite $K$
+\item Spectrum of $K$ and $B$ when $G$ is a tree
+\item Spectrum of $K$ and $B$ when $G$ is a unicycle
+\end{enumerate}
+
+
+\end{document}
