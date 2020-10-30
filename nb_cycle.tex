@@ -1,0 +1,22 @@
+\documentclass[11pt]{article}
+\usepackage{tikz}
+\begin{document}
+\begin{tikzpicture}
+\draw[ultra thick] (-2,0)--(0,2);
+\draw[ultra thick] (0,2)--(2,0);
+\draw[ultra thick] (2,0)--(0,-2);
+\draw[ultra thick] (0,-2)--(-2,0);
+\draw[->,ultra thick,red] (2,0) arc (0:80:1.8);
+\draw[->,ultra thick,red] (0,2) arc (90:170:1.8);
+\draw[->,ultra thick,red] (-2,0) arc (180:260:1.8);
+\draw[->,ultra thick,red] (0,-2) arc (270:350:1.8);
+\draw[->,ultra thick,red] (2,0) arc (90:170:1.8);
+\draw[->,ultra thick,red] (0,2) arc (180:260:1.8);
+\draw[->,ultra thick,red] (-2,0) arc (270:350:1.8);
+\draw[->,ultra thick,red] (0,-2) arc (0:80:1.8);
+\filldraw[black] (2,0) circle (5pt);
+\filldraw[black] (-2,0) circle (5pt);
+\filldraw[black] (0,2) circle (5pt);
+\filldraw[black] (0,-2) circle (5pt);
+\end{tikzpicture}
+\end{document}

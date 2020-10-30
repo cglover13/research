@@ -15,6 +15,7 @@
 \usepackage{amssymb}
 \usepackage[all]{xy}
 \usepackage{tikz}
+\usepackage{mathrsfs} 
 %\usepackage{bbold}
 %\usepackage{animate}
 
@@ -58,18 +59,18 @@
 
 \beamertemplatenavigationsymbolsempty
 
-\title[Non-Backtraking Random Walks]{Non-backtracking Random Walks}
+\title[Non-Backtracking Spectrum of Graphs]{Non-Backtracking Spectrum of Graphs}
 
 
 
 \author[Cory Glover]{{\large Cory Glover} \\  \vspace{.2cm}
-Brigham Young University \\ Department of Mathematics \\ \vspace{.4cm} {\footnotesize Joint work with\\ Mark Kempton, Brigham Young University\\Tyler Jones, Brigham Young University}
+Brigham Young University \\ Department of Mathematics \\ \vspace{.4cm} {\footnotesize Joint work with\\ Mark Kempton, Brigham Young University}
  } \institute[BYU]
 
 
-\date[February 29, 2020
+\date[October 25, 2020
 
-]{SCR 2020\\Provo, UT\\February 29,2020
+]{AMS Western Sectional 2020\\Provo, UT\\October 25, 2020
 }
 
 
@@ -103,52 +104,62 @@ Brigham Young University \\ Department of Mathematics \\ \vspace{.4cm} {\footnot
 %\subsection{Original Question}
 %\subsection{New Question}
 
-\frame{\frametitle{Problem}
+\frame{\frametitle{Non-backtracking Random Walks}
 
-\begin{center}
-Is the mixing rate of a non-backtracking random walk faster than that of a simple random walk on a graph?
-\end{center}
+\begin{definition}[Random Walk]
+Let $G=(V,E)$ be a graph. A \emph{random walk} across $G$ is a walk across a graph where $v_{i+1}$ is chosen uniformly at random from the set of neighbors of $v_i$.\end{definition}
+\pause
+%}
+%
+%\frame{\frametitle{Non-backtracking Random Walks}
+%
+%\begin{definition}[Random Walk]
+%Let $G=(V,E)$ be a graph with $n$ vertices and $m$ edges. A \emph{random walk} across $G$ is a walk across a graph where $v_{i+1}$ is chosen uniformly at random from the set of neighbors of $v_i$.\end{definition}
 
-}
-
-\frame{\frametitle{Mixing Rate}
-\begin{definition}
-Let $P$ be the transition probability matrix of a graph $G$ and let $\pi$ be the stationary distribution of a random walk on $G$. Then the \textbf{\textcolor{blue}{mixing rate}} of a random walk on a graph $G$ is defined pointwise by
-\[\rho=\limsup_{t\rightarrow\infty}\max_{u,v}|P^t(u,v)-\pi(v)|^{1/t}.\]
-\end{definition}
-}
-
-\frame{\frametitle{Mixing Rate and Eigenvalues}
-
-\begin{theorem}[Lovasz 1993]
-Let $G$ be a connected non-bipartite graph with transition probability matrix $P$. Let $\mu_1\geq\mu_2\geq\dotsb\geq\mu_n$ be the eigenvalues of $P$. Then the mixing rate of $G$ is $\rho=\max\{|\mu_2|,|\mu_n|\}$.
-\end{theorem}
-
+\begin{definition}[Non-backtracking Random Walk]
+Let $G=(V,E)$ be a graph. A \emph{non-backtracking random walk} across $G$ is a walk across a graph where $v_{i+1}$ is chosen uniformly at random from the set of neighbors of $v_i$ excluding $v_{i-1}$.\end{definition}
 
 }
 
+\frame{\frametitle{Non-backtracking Matrix}
 
-\frame{\frametitle{Hashimoto Matrix}
-
-
-
-\begin{definition}
-The \textbf{\textcolor{blue}{Hashimoto Matrix}} of a graph $G$ is 
-\begin{align}
-B((u,v),(x,y))&=\begin{cases}1&v=x\text{ and }u\neq y\\0&\text{otherwise}\end{cases}
-\end{align}
+\begin{definition}[NB Matrix]
+Let $B\in M_{2m}$ be the non-backtracking matrix.
+Then
+\[B((u,v),(x,y))=\begin{cases}1&v=x\text{ and }u\neq y\\0&\text{otherwise}\end{cases}.\]
 \end{definition}
 
+\centering
+\includegraphics{nb_cycle.pdf}
+
 }
 
-\frame{\frametitle{Ihara's Theorem}
+\frame{\frametitle{Spectrum of $B$}
 
-\begin{theorem}[Ihara]
-Given a graph $G$ with $n$ vertices and $m$ edges, define $B$ to be the Hashimoto matrix of $G$. Let $A$ be the adjacency matrix of $G$ and let $D$ be the diagonal degree matrix. Then
-\[\text{det}(I-\mu B)=(1-u^2)^{m-n}\text{det}(I-\mu A+\mu^2(D-I)).\]
+\textbf{Question:}  What do we know about the spectrum of $B$, $\sigma(B)$, for a given graph $G$?
+
+
+}
+
+\frame{\frametitle{Spectrum of $B$}
+
+\textbf{Question:}  What do we know about the spectrum of $B$, $\sigma(B)$, for a given graph $G$?
+
+\begin{theorem}[Ihara's Theorem]
+Let $G$ be a graph with adjacency matrix $A$, degree matrix $D$, and non-backtracking matrix $B$.
+Then 
+\[\text{det}(\mu I-B)=(1-\mu^2)^{m-n}\text{det}(\mu^2I-\mu A+(D-I)).\]
 \end{theorem}
-\smallskip
-Thus, the eigenvalues of $B$ are $\mu$.
+
+}
+
+\frame{\frametitle{$d$-regular Graphs}
+
+
+Let $G$ be a $d$-regular graph with adjacency matrix $A$ and non-backtracking matrix $B$.
+Then 
+\[\pm 1,\frac{\lambda_i\pm\sqrt{\lambda_i^2-4(d-1)}}{2}\]
+are the eigenvalues of $B$ where $\lambda_i\in\sigma(A)$ and $\pm 1$ each have multiplicity $m-n$.
 
 
 }
@@ -158,241 +169,299 @@ Thus, the eigenvalues of $B$ are $\mu$.
 
 From Krzakala et. al. (2013), the matrix $K$ of a graph $G$
 \[K=\begin{pmatrix}A&D-I\\-I&\mathbf{0}\end{pmatrix}\]
-is a invariant subspace of $B$.
+has characteristic polynomial
+\[\text{det}(\mu I-K)=\text{det}(\mu^2I-\mu A+(D-I)).\]
 
+}
+
+\frame{\frametitle{Decomposition of $B$}
+\begin{center}
+\begin{align*}
+S((u,v),x)&=\begin{cases}1&v=x\\0&\text{otherwise}\end{cases}&T(x,(u,v))&=\begin{cases}1&u=x\\0&\text{otherwise}\end{cases}
+\end{align*}
+
+\[\tau((i,j),(k,l))=\begin{cases}1&i=l\text{ and }j=k\\0&\text{otherwise}\end{cases}\]
+\end{center}
+
+\pause
+
+\begin{center}
+\begin{align*}
+B&=ST-\tau&D&=T\tau S&A&=TS
+\end{align*}
+\end{center}
+
+\pause
+
+\begin{center}
+\begin{align*}
+&&B\begin{bmatrix}S&T^T\end{bmatrix}&=\begin{bmatrix}S&T^T\end{bmatrix}K&&
+\end{align*}
+\end{center}
+}
+
+\frame{\frametitle{Decomposition of $B$}
+\begin{theorem}[Lubetzky and Peres, 2010]
+Let $G$ be a connected $d$-regular graph ($d\geq 3$) on $n$ vertices.
+Let $N=dn$ and let $\lambda_i\in\sigma(A)$, with $\lambda_1=d$. Then the operator $B$ is unitarily similar to
+\[\Lambda=\text{diag}\Biggl(d-1,\begin{bmatrix}\theta_2&\alpha_2\\0&\theta_2'\end{bmatrix},...,\begin{bmatrix}\theta_n&\alpha_n\\0&\theta_n'\end{bmatrix},-1,...-1,1,...,1\Biggr)\]
+where $|\alpha_i|<2(d-1)$ for all $i$, $\theta_i$ and $\theta_i'$ are defined as the solutions of
+\[\theta^2-\lambda_i\theta+d-1=0\]
+and $-1$ has multiplicity $N/2-n$ and $1$ has multiplicity $N/2-n+1$.
+\end{theorem}
+
+}
+
+
+\frame{\frametitle{Decomposition of $B$}
+\begin{theorem}
+Let $G$ be a connected graph and $B$ its non-backtracking matrix.  Define $\mathscr{E}_i$ to be the eigenspace of $i$ for $\tau$ ($i=\pm$). Let $R\in M_{2m\times 2(m-n)}$ where the columns of $R$ are linearly independent and the first $m-n$ columns are taken from $\mathscr{E}_{-1}\cap\text{Null}(ST)$ and the second $m-n$ columns are taken from $\mathscr{E}_1\cap\text{Null}(ST)$.
+Then
+\[BX=X\begin{bmatrix}K&0&0\\0&I_{m-n}&0\\0&0&-I_{m-n}\end{bmatrix}\]
+where $X=\begin{bmatrix}S&T^T&R\end{bmatrix}$.
+\end{theorem}
 }
 
 \frame{\frametitle{The Matrix $K$}
-
-Define the following matrices: \[S((u,v),x)=\begin{cases}1&v=x\\0&\text{otherwise}\end{cases}\] 
- \[T(x,(u,v))=\begin{cases}1&u=x\\0&\text{otherwise}\end{cases}.\]
- \bigskip
-Then
-\[B\begin{pmatrix}S&T^T\end{pmatrix}v=\begin{pmatrix}S&T^T\end{pmatrix}Kv.\]
-\smallskip
-If $v$ is an eigenvector of $K$ with eigenvalue $\mu$, then
-\[B\begin{pmatrix}S&T^T\end{pmatrix}v=\mu\begin{pmatrix}S&T^T\end{pmatrix}v.\]
-
+\begin{proposition}
+Let $G$ be a graph and $K$ as defined previously. Then the following are true:
+\begin{enumerate}[(i)]
+\item Every eigenvalue-eigenvector of $K$ is of the form $(\mu, \begin{bmatrix}-\mu y&y\end{bmatrix}^T)$
+\item $1\in\sigma(K)$ with algebraic multiplicity equal to the number of connected components of $G$,
+\item the nullity of $K$ is the number of degree one vertices, and
+\item $K^{-1}=\begin{bmatrix}0&-I\\(D-I)^{-1}&(D-I)^{-1}A\end{bmatrix}$ when $d\geq 2$.
+\end{enumerate}
+\end{proposition}
 }
-
-
-
 
 \frame{\frametitle{Eigenvalues of $K$}
-If $\begin{pmatrix}x&y\end{pmatrix}^T$ is an eigenvector of $K$,
+
+Let $\mu\in\sigma(K)$. Then
 \begin{align*}
-\begin{pmatrix}A&D-I\\-I&\mathbf{0}\end{pmatrix}\begin{pmatrix}x\\y\end{pmatrix}&=\mu\begin{pmatrix}x\\y\end{pmatrix},
-\end{align*}
-then $x=-\mu y$.
-\smallskip
-This means that $\mu^2y-\mu Ay+(D-I)y=\mathbf{0}$ for all $\mu\in\sigma(K)$.
-}
-
-\frame{\frametitle{Ihara's Theorem}
-
-
-
-\begin{theorem}[Ihara, 1966]
-Given a graph $G$ and the associated Hasimoto matrix $B$, adjacency matrix $A$, and diagonal degree matrix $D$, the following is true:
-\[\text{det}(I-\mu B)=(1-u^2)^{m-n}\text{det}(I-u A-u^2(D-I)).\]
-\end{theorem}
-\bigskip
-So the eigenvalues of $B$ are the $\frac{1}{u}$. 
-}
-
-\frame{\frametitle{Relationship Between $A$ and $K$}
-
-Let $\mathbf{x}$ be the eigenvector associated with $\lambda_2$ (the second largest eigenvalue) of $A$. Let $\mu_2$ be the second largest eigenvalue of $K$ such that $K\begin{pmatrix}-\mu_2\mathbf{y}&\mathbf{y}\end{pmatrix}^T=\mu_2\begin{pmatrix}-\mu_2\mathbf{y}&\mathbf{y}\end{pmatrix}^T$. Scale $\mathbf{x}$ such that $\mathbf{x}^T\mathbf{y}=1$. 
-
-\bigskip
-
-Then,
-\begin{align*}
-\mu_2^2\mathbf{x}^T\mathbf{y}-\mu_2\mathbf{x}^TA\mathbf{y}+\mathbf{x}^T(D-I)\mathbf{y}&=0,\\
-\mu_2^2-\mu_2\lambda_2+\mathbf{x}^T(D-I)\mathbf{y}&=0.
+\mu\begin{bmatrix}-\mu y\\y\end{bmatrix}&=\begin{bmatrix}A&D-I\\-I&0\end{bmatrix}\begin{bmatrix}-\mu y\\y\end{bmatrix}\\
+0&=\mu^2y-\mu Ay+(D-I)y 
 \end{align*}
 
-\bigskip
+\pause 
 
-Solving for $\mu_2$,
-\[\mu_2=\frac{\lambda_2\pm\sqrt{\lambda_2^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}.\]
+Let $\lambda\in\sigma(A)$ with eigenvector $x$. If $x^Ty\neq 0$, scale $x$ such that $x^Ty=1$. Then
+\begin{align*}
+0&=\mu^2-\mu\lambda+x^T(D-I)y\\
+\mu&=\frac{\lambda\pm\sqrt{\lambda^2-4x^T(D-I)y}}{2}.
+\end{align*}
+
 }
 
-\frame{ \frametitle{Questions That Arise}
+\frame{\frametitle{Spectral Radius of $K$}
+\begin{proposition}
+Let $G$ be a connected graph that is not a cycle and $d\geq 2$. Then $B$ is irreducible.
+\end{proposition}
 
-\[\mu=\frac{\lambda\pm\sqrt{\lambda^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}\]
+\begin{lemma}
+Let $G$ be a connected graph that is not a cycle and $d\geq 2$. Then $\rho(K)>1$ and there is a positive vector $y$ such that $K\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T=\rho(K)\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T$.
+\end{lemma}
 
-\bigskip
+}
+
+\frame{\frametitle{Spectral Radius of $K$}
+
+\begin{lemma}
+Let $G$ be a connected graph that is not a cycle and $d\geq 2$. Then $\rho(K)>1$ and there is a positive vector $y$ such that $K\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T=\rho(K)\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T$.
+\end{lemma}
+
+Sketch:
 
 \begin{itemize}
-\item How are $\mu$ and $\lambda$ related?
-\item Is it $+$ or $-$?
-\item Can we get all eigenvalues $\mu$?
-\item How to convert $\mu$ to $\rho$?
+\item Break into regular and non-regular case for $\rho(K)>1$
 \end{itemize}
 
-  
 }
 
-\frame{ \frametitle{Relating $\mu$ and $\lambda$}
+\frame{\frametitle{Spectral Radius of $K$}
 
-Assume that $\lambda \geq 2\sqrt{\mathbf{x}^T(D-I)\mathbf{y}}$:
-\begin{align*}
-\mu&=\frac{\lambda+\sqrt{\lambda^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}\leq\frac{\lambda+\lambda}{2}=\lambda\\
-\mu&=\frac{\lambda-\sqrt{\lambda^2-4\mathbf{x}^T(D-I)\mathbf{y}}}{2}\leq\frac{\lambda}{2}.
-\end{align*}
-In either case $\mu\leq\lambda$.
+\begin{lemma}
+Let $G$ be a connected graph that is not a cycle and $d\geq 2$. Then $\rho(K)>1$ and there is a positive vector $y$ such that $K\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T=\rho(K)\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T$.
+\end{lemma}
 
+Sketch:
 
-}
-
-
-
-\frame{ \frametitle{Bipartite Graphs and $K$}
-
-INSERT PICTURE OF BIPARTITE GRAPH HERE
+\begin{itemize}
+\item Break into regular and non-regular case for $\rho(K)>1$
+\begin{itemize}
+\item For regular case use fact that $d\geq 3$
+\item For non-regular case use minimum row sums
+\end{itemize}
+\end{itemize}
 
 }
 
-\frame{\frametitle{Bipartite Graphs and $K$}
+\frame{\frametitle{Spectral Radius of $K$}
 
+\begin{lemma}
+Let $G$ be a connected graph that is not a cycle and $d\geq 2$. Then $\rho(K)>1$ and there is a positive vector $y$ such that $K\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T=\rho(K)\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T$.
+\end{lemma}
+
+Sketch:
+
+\begin{itemize}
+\item Break into regular and non-regular case for $\rho(K)>1$
+\begin{itemize}
+\item For regular case use fact that $d\geq 3$
+\item For non-regular case use minimum row sums
+\end{itemize}
+\item By Perron-Frobenius and since $B\begin{bmatrix}S&T^T\end{bmatrix}=\begin{bmatrix}S&T^T\end{bmatrix}K$, we know that $T^Ty\succ \rho(K)Sy$ or $\rho(K)Sy\succ T^Ty$
+\end{itemize}
+
+}
+
+\frame{\frametitle{Spectral Radius of $K$}
+
+\begin{lemma}
+Let $G$ be a connected graph that is not a cycle and $d\geq 2$. Then $\rho(K)>1$ and there is a positive vector $y$ such that $K\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T=\rho(K)\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T$.
+\end{lemma}
+
+Sketch:
+
+\begin{itemize}
+\item Break into regular and non-regular case for $\rho(K)>1$
+\begin{itemize}
+\item For regular case use fact that $d\geq 3$
+\item For non-regular case use minimum row sums
+\end{itemize}
+\item By Perron-Frobenius and since $B\begin{bmatrix}S&T^T\end{bmatrix}=\begin{bmatrix}S&T^T\end{bmatrix}K$, we know that $T^Ty\succ \rho(K)Sy$ or $\rho(K)Sy\succ T^Ty$
+\item BWOC, show $\rho(K)Sy\succ T^Ty$.
+\end{itemize}
+
+}
+
+\frame{\frametitle{Spectral Radius of $K$}
+
+\begin{lemma}
+Let $G$ be a connected graph that is not a cycle and $d\geq 2$. Then $\rho(K)>1$ and there is a positive vector $y$ such that $K\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T=\rho(K)\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T$.
+\end{lemma}
+
+Sketch:
+
+\begin{itemize}
+\item Break into regular and non-regular case for $\rho(K)>1$
+\begin{itemize}
+\item For regular case use fact that $d\geq 3$
+\item For non-regular case use minimum row sums
+\end{itemize}
+\item By Perron-Frobenius and since $B\begin{bmatrix}S&T^T\end{bmatrix}=\begin{bmatrix}S&T^T\end{bmatrix}K$, we know that $T^Ty\succ \rho(K)Sy$ or $\rho(K)Sy\succ T^Ty$
+\item BWOC, show $\rho(K)Sy\succ T^Ty$.
+\item Use the fact that $S$ and $T^T$ have one nonzero entry in each row.
+\end{itemize}
+
+}
+
+\frame{\frametitle{Spectral Radius of $K$}
 \begin{theorem}
-The following are equivalent for a graph $G$:
+Let $G$ be a connected graph, $A$ its adjacency matrix, $D$ the degree matrix, and $B$ the non-backtracking matrix.
+If $\rho(A)\geq 2x^T(D-I)y$, then 
+\[\rho(B)\leq\frac{\rho(A)+\sqrt{\rho(A)^2-4(d_{min}-1)}}{2}.\]
+\end{theorem}
+
+\pause
+
+Sketch:
+
+\begin{itemize}
+\item If $Ax=\rho(A)x$ and $K\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T=\rho(K)\begin{bmatrix}-\rho(K)y&y\end{bmatrix}^T$, we know $x^Ty\neq 0$ from previous lemma
+\item Apply $\mu=\frac{\lambda\pm\sqrt{\lambda^2-4x^T(D-I)y}}{2}$
+\end{itemize}
+
+}
+
+\frame{\frametitle{Spectral Radius of $K$}
+From a bound by Das and Kumar (2004), we get
+\begin{corollary}
+Let $G$ be a connected graph and $B$ its non-backtracking matrix. If $\rho(A)\geq 2\sqrt{x^T(D-I)y}$,
+\[\rho(B)\leq\frac{\sqrt{2m-n-1}+\sqrt{2m-n-4d_{min}+1}}{2}.\]
+
+\end{corollary}
+
+}
+
+\frame{\frametitle{Smallest Eigenvalue of $K$}
+\begin{proposition}
+Let $G$ be a connected graph with $d\geq 2$.
+Then $|\mu|\geq 1$ for all $\mu\in\sigma(K)$.
+\end{proposition}
+\pause
+Sketch:
+
+\begin{itemize}
+\item Build equation $\mu=\frac{y^TAy\pm\sqrt{(y^TAy)^2-4y^T(D-I)y}}{2}$
+\end{itemize}
+
+}
+
+\frame{\frametitle{Smallest Eigenvalue of $K$}
+\begin{proposition}
+Let $G$ be a connected graph with $d\geq 2$.
+Then $|\mu|\geq 1$ for all $\mu\in\sigma(K)$.
+\end{proposition}
+
+Sketch:
+
+\begin{itemize}
+\item Build equation $\mu=\frac{y^TAy\pm\sqrt{(y^TAy)^2-4y^T(D-I)y}}{2}$
+\item When $(y^TAy)^2\leq 4y^T(D-I)y$, use $d\geq 2$
+\end{itemize}
+
+}
+\frame{\frametitle{Smallest Eigenvalue of $K$}
+\begin{proposition}
+Let $G$ be a connected graph with $d_{\min}\geq 2$.
+Then $|\mu|\geq 1$ for all $\mu\in\sigma(K)$.
+\end{proposition}
+
+Sketch:
+
+\begin{itemize}
+\item Build equation $\mu=\frac{y^TAy\pm\sqrt{(y^TAy)^2-4y^T(D-I)y}}{2}$
+\item When $(y^TAy)^2\leq 4y^T(D-I)y$, use $d_{\min}\geq 2$
+\item When $(y^TAy)^2>4y^T(D-I)y$, use $d_{\min}\geq 2$ and the positive semi-definiteness of the Laplacian
+\end{itemize}
+
+}
+
+\frame{\frametitle{Bipartite Graphs}
+\begin{theorem}
+Let $G$ be a connected graph and $B$ its non-backtracking matrix. The following are equivalent:
 \begin{enumerate}
-\item $G$ is bipartite,
-\item The spectrum of $B$ is symmetric,
-\item The spectrum of $K$ is symmetric,
-\item $-1$ is an eigenvalue of $K$.
+\item $G$ is a bipartite graph,
+\item $\sigma(K)$ is symmetric,
+\item $\sigma(B)$ is symmetric,
+\item $-1\in\sigma(K)$,
+\item $\lambda_n=-\lambda_1$ for $\lambda_i\in\sigma(K)$, and
+\item $\mu_n=-\mu_1$ for $\mu_i\in\sigma(B)$.
 \end{enumerate}
 \end{theorem}
 
-}
-
-
-
-
-
-\frame{\frametitle{Bipartite $\Rightarrow$ $\sigma(B)$ Is Symmetric}
-If $G$ is bipartite, then 
-\[B=\begin{pmatrix}0&B_2\\B_1&0\end{pmatrix}.\]
-Let $\lambda\in\sigma(B)$. Then,
-\begin{align}
-B\begin{pmatrix}x&y\end{pmatrix}^T&=\lambda\begin{pmatrix}x&y\end{pmatrix}^T\\
-\begin{pmatrix}B_2y&B_1x\end{pmatrix}^T&=\lambda\begin{pmatrix}x&y\end{pmatrix}^T.
-\end{align}
-This means that
-\begin{align}
-B\begin{pmatrix}x&-y\end{pmatrix}^T&=\begin{pmatrix}-B_2y&B_1x\end{pmatrix}^T\\
-&=\begin{pmatrix}-\lambda x&\lambda y\end{pmatrix}^T\\
-&=-\lambda\begin{pmatrix}x&-y\end{pmatrix}^T.
-\end{align}
-So $-\lambda\in\sigma(B)$.
-}
-
-\frame{\frametitle{$\sigma(B)$ Is Symmetric $\Rightarrow$ $\sigma(K)$ Is Symmetric}
-\begin{theorem}[Ihara, 1966]
-Given a graph $G$ and the associated Hasimoto matrix $B$, adjacency matrix $A$, and diagonal degree matrix $D$, the following is true:
-\[\text{det}(I-\mu B)=(1-u^2)^{m-n}\text{det}(I-u A-u^2(D-I)).\]
-\end{theorem}
 
 }
 
-\frame{ \frametitle{$\sigma(K)$ is symmetric $\Rightarrow$ $\sigma(B)$ is symmetric.}
-
-\begin{theorem}[Ihara, 1966]
-Given a graph $G$ and the associated Hasimoto matrix $B$, adjacency matrix $A$, and diagonal degree matrix $D$, the following is true:
-\[\text{det}(I-\mu B)=(1-u^2)^{m-n}\text{det}(I-u A-u^2(D-I)).\]
-\end{theorem}
-
-}
-
-
-\frame{ \frametitle{$\sigma(B)$ is symmetric $\Rightarrow$ $G$ is bipartite}
-Consider $B$ as the adjacency matrix of its own graph.
-
-
-
-}
-
-\frame{\frametitle{Paths: Cospectrality and Fractional Cospectrality}
-When can two vertices of a path be cospectral or fractionally cospectral?
-
-\pause
-
-\begin{lemma}
-Let $u,v$ be vertices of a path on $n$ vertices $P_n$
+\frame{\frametitle{Conclusion}
+What we know:
 \begin{itemize}
-\item $u$ and $v$ are cospectral if and only if $\{u,v\}=\{i,n-i\}$.\pause
- \item $u$ and $v$ are fractionally cospectral (and not cospectral) if and only if $n=5d-1$ for some positive integer $d$, and $\{u,v\}=\{d,3d\}$ or (by symmetry) $\{u,v\}=\{2d,4d\}$.
-\end{itemize}
-\end{lemma}
-
-\begin{center}
-\begin{tikzpicture}
-\draw (-4,0)node{}--(-3,0)node{}--(-2,0)node{}--(-1,0)node{}--(0,0)node{}--(1,0)node{}--(2,0)node{}--(3,0)node{}--(4,0)node{};
-\draw (-3,0)node[fill=none,below]{$u$} (1,0)node[fill=none,below]{$v$};
-\end{tikzpicture}
-\end{center}
-
-}
-
-\frame{\frametitle{Fractional Cospectrality in Paths}
-
-We prove this by counting walks in paths
-
-\begin{align*}
-A^{2d+2j}(u,u) &= \binom{2d+2j}{d+j}-\binom{2d+2j}{j}\\
-A^{2d+2j}(v,v) &= \binom{2d+2j}{d+j}\\
-A^{2d+2j}(u,v) &= \binom{2d+2j}{j}.
-\end{align*}
-
-
-}
-
-\frame{\frametitle{Paths: Eigenvalue Condition}
-
-The eigenvalues of $P_{5d-1}$ are
-\[
-\lambda_j=2\cos\frac{\pi j}{5d},~~~~j=1,...,5d-1
-\]
-
-\pause
-
-\begin{lemma}
-Let $m$ be an odd integer, $0\leq a< k$ integers.  Then
-\[
-\sum_{i=0}^{m-1}(-1)^i\cos\left(\frac{(a+ik)\pi}{km}\right)=0.
-\]
-\end{lemma}
-
-\pause
-
-Eigenvalue condition satisfied if and only if $d=2^k$ for some $k$.
-
-}
-
-\frame{\frametitle{PGFR in Paths}
-
-\begin{theorem}
-Vertices $u$ and $v$ of $P_n$ exhibit PGFR if and only if we are in one of the following cases:
-\begin{itemize}
-\item There is PGST from $u$ to $v$ (characterized previously).
-\item $n=5\cdot 2^k-1$ and $\{u,v\} = \{2^k,3\cdot2^k\}$ or $ \{2\cdot2^k,4\cdot2^k\}$.
-\end{itemize}
-\end{theorem}
-
-}
-
-\frame{\frametitle{Future Work}
-
-\begin{itemize}
-\item What other graphs have fractionally cospectral pairs of nodes?  Which of these exhibit FR/PGFR?\pause
-
-\item Weighted paths?\pause
-
-\item FR or PGFR among more than 2 nodes in paths?
+\item We can use $K$ to understand the spectrum of $B$
+\item $B$ can be related to a block diagonal matrix showing more explicitly the spectrum of $B$
+\item We can use $K$ to bound the spectral radius of $B$
+\item The spectrum of $B$ and $K$ can indicate whether $G$ is bipartite
 \end{itemize}
 
+
+}
+
+\frame{\frametitle{Conclusion}
+
+Future Work:
+\begin{itemize}
+\item Can we identify the spectral gap of $B$?
+\item Can we relate the transition probability matrix of $G$ to the non-backtracking transition probability matrix?
+\end{itemize}
 }
 
 \frame{\frametitle{The End}
